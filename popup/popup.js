@@ -172,7 +172,7 @@ function renderProducts() {
         .map(
           (it) => `
       <div class="prod-item">
-        ${it.icon ? `<img class="prod-icon" src="${escapeHtml(it.icon)}" alt="" loading="lazy" />` : '<span class="prod-icon prod-icon-empty"></span>'}
+        ${it.icon ? `<img class="prod-icon" src="${escapeHtml(it.icon)}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="prod-icon prod-icon-empty"></span>'}
         <a class="prod-name" target="_blank" rel="noreferrer" href="https://steamcommunity.com/market/search?q=${encodeURIComponent(it.name)}&appid=730" title="${escapeHtml(it.name)}">${escapeHtml(it.name)}</a>
         <span class="prod-count">×${it.count}</span>
         <span class="prod-date">${escapeHtml(it.lastDate || '')}</span>
