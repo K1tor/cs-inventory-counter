@@ -126,6 +126,69 @@ function renderRecent() {
     </div>`).join('');
 }
 
+// ---------- 产物统计 ----------
+function aggregateProducts() {
+  const groups = {
+    case: { label: '开箱产物', map: new Map() },
+    tradeup: { label: '炼金产物', map: new Map() },
+    capsule: { label: '开胶囊产物', map: new Map() },
+  };
+  for (const e of events) {
+    if (!e.included) continue;
+    const g = groups[e.category];
+    if (!g) continue;
+    (e.added || []).forEach((name, i) => {
+      if (!name) return;
+      let cur = g.map.get(name);
+      if (!cur) {
+        cur = { name, count: 0, icon: null, lastDate: null };
+        g.map.set(name, cur);
+      }
+      cur.count++;
+      if (!cur.icon && e.addedIcons && e.addedIcons[i]) cur.icon = e.addedIcons[i];
+      if (e.date && (!cur.lastDate || e.date > cur.lastDate)) cur.lastDate = e.date;
+    });
+  }
+  return groups;
+}
+
+function renderProducts() {
+  const groups = aggregateProducts();
+  const wrap = $('#products');
+  const blocks = [];
+  for (const key of ['case', 'tradeup', 'capsule']) {
+    const g = groups[key];
+    const items = [...g.map.values()].sort(
+      (a, b) => b.count - a.count || String(b.lastDate || '').localeCompare(String(a.lastDate || ''))
+    );
+    if (items.length === 0) continue;
+    const total = items.reduce((s, it) => s + it.count, 0);
+    const shown = items.slice(0, 100);
+    blocks.push(
+      `<h4 class="prod-title">${g.label}<span class="prod-kinds">${items.length} 种 / ${total} 件</span></h4>`
+    );
+    blocks.push(
+      shown
+        .map(
+          (it) => `
+      <div class="prod-item">
+        ${it.icon ? `<img class="prod-icon" src="${escapeHtml(it.icon)}" alt="" loading="lazy" />` : '<span class="prod-icon prod-icon-empty"></span>'}
+        <a class="prod-name" target="_blank" rel="noreferrer" href="https://steamcommunity.com/market/search?q=${encodeURIComponent(it.name)}&appid=730" title="${escapeHtml(it.name)}">${escapeHtml(it.name)}</a>
+        <span class="prod-count">×${it.count}</span>
+        <span class="prod-date">${escapeHtml(it.lastDate || '')}</span>
+      </div>`
+        )
+        .join('')
+    );
+    if (items.length > shown.length) {
+      blocks.push(`<div class="empty">仅显示前 100 种,共 ${items.length} 种</div>`);
+    }
+  }
+  wrap.innerHTML = blocks.length
+    ? blocks.join('')
+    : '<div class="empty">暂无产物数据,先扫描库存历史</div>';
+}
+
 function renderScanState() {
   const prog = $('#scan-progress');
   const st = $('#scan-state');
@@ -177,6 +240,7 @@ function renderReview() {
 
 function renderAll() {
   renderStats();
+  renderProducts();
   renderReview();
 }
 

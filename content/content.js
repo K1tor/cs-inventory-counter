@@ -42,19 +42,48 @@
     const dateText = text(row.querySelector('.tradehistory_date'));
     const timeText = text(row.querySelector('.tradehistory_timestamp'));
 
-    const anchors = Array.from(descEl.querySelectorAll('a.history_item'));
     const added = [];
+    const addedIcons = [];
     const removed = [];
+    const removedIcons = [];
 
-    for (const a of anchors) {
-      let name = (a.textContent || '').trim().replace(/^[+\-]\s*/, '');
-      if (!name) continue;
-      if (/\breceived\b/.test(a.id || '')) added.push(name);
-      else removed.push(name);
+    const pushItem = (dir, name, icon) => {
+      if (!name) return;
+      if (dir === 'added') {
+        added.push(name);
+        addedIcons.push(icon || null);
+      } else {
+        removed.push(name);
+        removedIcons.push(icon || null);
+      }
+    };
+
+    // 优先按"每个物品一个容器"的结构提取(可同时拿到物品图标)
+    const containers = descEl.querySelectorAll(
+      '.tradehistory_received_item, .tradehistory_given_item, [class*="received_item"], [class*="given_item"]'
+    );
+    if (containers.length > 0) {
+      for (const c of Array.from(containers)) {
+        const a = c.querySelector('a.history_item');
+        if (!a) continue;
+        const name = (a.textContent || '').trim().replace(/^[+\-]\s*/, '');
+        const img = c.querySelector('img');
+        const icon = img ? img.getAttribute('src') || img.src : null;
+        const dir =
+          /received/.test(c.className || '') || /\breceived\b/.test(a.id || '') ? 'added' : 'removed';
+        pushItem(dir, name, icon);
+      }
+    } else {
+      for (const a of Array.from(descEl.querySelectorAll('a.history_item'))) {
+        const name = (a.textContent || '').trim().replace(/^[+\-]\s*/, '');
+        const img = a.querySelector('img');
+        const icon = img ? img.getAttribute('src') || img.src : null;
+        pushItem(/\breceived\b/.test(a.id || '') ? 'added' : 'removed', name, icon);
+      }
     }
 
     let note = '';
-    if (anchors.length > 0) {
+    if (added.length + removed.length > 0) {
       const parts = [];
       for (const child of Array.from(descEl.children)) {
         if (child.querySelector && child.querySelector('a.history_item')) continue;
@@ -99,7 +128,9 @@
       hint,
       note,
       added,
+      addedIcons,
       removed,
+      removedIcons,
       included: true,
       manual: false,
     };
@@ -123,6 +154,8 @@
         if (!old.note) old.note = inc.note;
         if (old.added.length === 0) old.added = inc.added;
         if (old.removed.length === 0) old.removed = inc.removed;
+        if ((!old.addedIcons || old.addedIcons.length === 0) && inc.addedIcons) old.addedIcons = inc.addedIcons;
+        if ((!old.removedIcons || old.removedIcons.length === 0) && inc.removedIcons) old.removedIcons = inc.removedIcons;
         if (!old.date) old.date = inc.date;
         if (!old.time) old.time = inc.time;
         if (inc.ts && !old.ts) old.ts = inc.ts;

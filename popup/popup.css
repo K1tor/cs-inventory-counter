@@ -183,6 +183,49 @@ main { padding: 12px; overflow-y: auto; max-height: 460px; }
 .rv-include { display: flex; align-items: center; gap: 4px; color: #a8b3bd; font-size: 12px; white-space: nowrap; }
 .rv-include input { accent-color: #66c0f4; }
 
+/* 产物 */
+.prod-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+  color: #e6edf3;
+  margin: 12px 0 6px;
+  border-left: 3px solid #66c0f4;
+  padding-left: 7px;
+}
+.prod-title:first-child { margin-top: 0; }
+.prod-kinds { color: #8f98a0; font-weight: normal; font-size: 11px; }
+.prod-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-bottom: 1px solid #2f3d4d;
+  font-size: 12px;
+}
+.prod-icon {
+  width: 36px;
+  height: 27px;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: #171a21;
+  border-radius: 3px;
+}
+.prod-icon-empty { display: inline-block; }
+.prod-name {
+  flex: 1;
+  min-width: 0;
+  color: #c7d5e0;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prod-name:hover { color: #66c0f4; text-decoration: underline; }
+.prod-count { color: #ffd166; font-weight: 700; flex-shrink: 0; }
+.prod-date { color: #8f98a0; font-size: 11px; flex-shrink: 0; }
+
 .hint { margin-top: 10px; color: #8f98a0; font-size: 11px; text-align: center; }
 
 .ft {
