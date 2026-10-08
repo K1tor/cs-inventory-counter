@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "CS 开箱统计助手",
+  "version": "1.0.0",
+  "description": "扫描 Steam 库存历史,自动统计 CS2/CS:GO 的开箱、炼金(升级合约)与开胶囊次数,支持复核修正与 CSV 导出。",
+  "permissions": ["storage", "unlimitedStorage"],
+  "host_permissions": [
+    "https://steamcommunity.com/*",
+    "http://steamcommunity.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "CS 开箱统计助手",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://steamcommunity.com/*inventoryhistory*",
+        "http://steamcommunity.com/*inventoryhistory*"
+      ],
+      "js": ["content/parser.js", "content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="hd">
+    <span class="hd-title">CS 开箱统计助手</span>
+    <span class="hd-state" id="scan-state" title="扫描状态"></span>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="stats">统计</button>
+    <button class="tab" data-tab="review">复核</button>
+  </nav>
+
+  <main>
+    <!-- 统计页 -->
+    <section id="view-stats" class="view active">
+      <div class="cards">
+        <div class="card c-case">
+          <div class="card-label">开箱</div>
+          <div class="card-num" id="num-case">0</div>
+          <div class="card-ops">
+            <button class="mini" data-cat="case" data-op="plus" title="手动 +1">+1</button>
+            <button class="mini" data-cat="case" data-op="minus" title="撤销最近手动记录">-1</button>
+          </div>
+        </div>
+        <div class="card c-tradeup">
+          <div class="card-label">炼金</div>
+          <div class="card-num" id="num-tradeup">0</div>
+          <div class="card-ops">
+            <button class="mini" data-cat="tradeup" data-op="plus" title="手动 +1">+1</button>
+            <button class="mini" data-cat="tradeup" data-op="minus" title="撤销最近手动记录">-1</button>
+          </div>
+        </div>
+        <div class="card c-capsule">
+          <div class="card-label">开胶囊</div>
+          <div class="card-num" id="num-capsule">0</div>
+          <div class="card-ops">
+            <button class="mini" data-cat="capsule" data-op="plus" title="手动 +1">+1</button>
+            <button class="mini" data-cat="capsule" data-op="minus" title="撤销最近手动记录">-1</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary">
+        <span>合计 <b id="sum-total">0</b> 次</span>
+        <span class="sep">·</span>
+        <span>待复核 <b id="sum-unknown">0</b> 条</span>
+      </div>
+
+      <div class="ops">
+        <button id="btn-scan" class="btn btn-primary">开始/继续扫描</button>
+        <button id="btn-csv" class="btn">导出 CSV</button>
+        <button id="btn-clear" class="btn btn-danger">清空</button>
+      </div>
+      <div class="scan-progress" id="scan-progress" hidden></div>
+
+      <h3 class="sec-title">按月统计</h3>
+      <div class="monthly-wrap" id="monthly">
+        <div class="empty">暂无数据,点击「开始扫描」读取 Steam 库存历史</div>
+      </div>
+
+      <h3 class="sec-title">最近记录</h3>
+      <div class="recent" id="recent"></div>
+    </section>
+
+    <!-- 复核页 -->
+    <section id="view-review" class="view">
+      <div class="filters" id="filters">
+        <button class="chip active" data-f="all">全部</button>
+        <button class="chip" data-f="unknown">待复核</button>
+        <button class="chip" data-f="case">开箱</button>
+        <button class="chip" data-f="tradeup">炼金</button>
+        <button class="chip" data-f="capsule">开胶囊</button>
+        <button class="chip" data-f="other">其他</button>
+      </div>
+      <div class="review-list" id="review-list"></div>
+      <button id="btn-more" class="btn btn-block" hidden>加载更多</button>
+      <div class="hint">分类不对?在这里修正后自动生效;取消勾选「计入」可从统计中排除。</div>
+    </section>
+  </main>
+
+  <footer class="ft">数据仅保存在本机浏览器中,不上传任何服务器</footer>
+
+  <script src="../content/parser.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+/* CS 开箱统计助手 —— 库存历史页悬浮面板 */
+#cs-counter-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483000;
+  width: 250px;
+  background: #1b2838;
+  border: 1px solid #4b5f74;
+  border-radius: 8px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+  font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  font-size: 13px;
+  color: #c7d5e0;
+  overflow: hidden;
+}
+#cs-counter-panel .csc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #171a21;
+  border-bottom: 1px solid #2f3d4d;
+  cursor: default;
+}
+#cs-counter-panel .csc-title {
+  font-weight: 700;
+  color: #e6edf3;
+  font-size: 13px;
+}
+#cs-counter-panel .csc-collapse {
+  background: #2a3f5a;
+  color: #e6edf3;
+  border: none;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
+  line-height: 18px;
+  cursor: pointer;
+  padding: 0;
+}
+#cs-counter-panel .csc-collapse:hover {
+  background: #3d6a9f;
+}
+#cs-counter-panel .csc-body {
+  padding: 10px;
+}
+#cs-counter-panel .csc-counts {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+#cs-counter-panel .csc-count {
+  flex: 1;
+  text-align: center;
+  background: #2a3f5a;
+  border-radius: 5px;
+  padding: 7px 2px 6px;
+  font-size: 12px;
+}
+#cs-counter-panel .csc-count .csc-num {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+#cs-counter-panel .csc-case .csc-num { color: #ffd166; }
+#cs-counter-panel .csc-tradeup .csc-num { color: #7fd8a4; }
+#cs-counter-panel .csc-capsule .csc-num { color: #8ab4ff; }
+#cs-counter-panel .csc-sub {
+  display: flex;
+  justify-content: space-between;
+  color: #8f98a0;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+#cs-counter-panel .csc-status {
+  background: #171a21;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  color: #a8b3bd;
+  margin-bottom: 8px;
+  min-height: 15px;
+  word-break: break-all;
+}
+#cs-counter-panel .csc-status.csc-run { color: #ffd166; }
+#cs-counter-panel .csc-status.csc-ok { color: #7fd8a4; }
+#cs-counter-panel .csc-status.csc-err { color: #ff7b72; }
+#cs-counter-panel .csc-actions {
+  display: flex;
+  gap: 8px;
+}
+#cs-counter-panel .csc-btn {
+  flex: 1;
+  padding: 7px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  background: #2a3f5a;
+  color: #c7d5e0;
+}
+#cs-counter-panel .csc-btn:hover:not(:disabled) {
+  background: #3d6a9f;
+}
+#cs-counter-panel .csc-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+#cs-counter-panel .csc-btn-primary {
+  background: #66c0f4;
+  color: #101822;
+  font-weight: 700;
+}
+#cs-counter-panel .csc-btn-primary:hover:not(:disabled) {
+  background: #8fd4ff;
+}
+#cs-counter-panel .csc-hint {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #8f98a0;
+  text-align: center;
+}
